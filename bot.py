@@ -16,6 +16,7 @@ def draw(cords):
             response = requests.post('http://pb.dmcraft.online', data=payload)
             print("Retrying...")
             print(response)
+    print("DONE!")
 
 def linex(y, x1, x2):
     res = []
