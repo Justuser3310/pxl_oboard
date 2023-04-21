@@ -16,10 +16,11 @@ def kbv(dict_, value):
 class RequestHandler(BaseHTTPRequestHandler):
     MATRIX_SIZE = (800, 1024)
     COLORS = {
-        'w': (255, 255, 255),
-        'b': (0, 0, 0),
-        'r': (255, 0, 0),
-        'g': (0, 255, 0),
+        'white': (255, 255, 255),
+        'blue': (0, 0, 255),
+        'red': (255, 0, 0),
+        'green': (0, 255, 0),
+        'black': (0, 0, 0)
     }
 
     def do_GET(self):
