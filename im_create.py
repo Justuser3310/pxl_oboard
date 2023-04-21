@@ -69,7 +69,8 @@ class PixelArt:
     def draw_pixel(self, event):
         x = int(event.x / 12)
         y = int(event.y / 12)
-        self.canvas.create_rectangle(x*12, y*12, x*12 + 12, y*12 + 12, fill=self.current_color)
+        #self.canvas.create_rectangle(x*12, y*12, x*12 + 12, y*12 + 12, fill=self.current_color)
+        self.canvas.create_rectangle(x * 12, y * 12, x * 12 + 12, y * 12 + 12, fill=self.current_color, outline="")
 
     def set_color(self, color):
         self.current_color = color
