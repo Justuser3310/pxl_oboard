@@ -5,17 +5,27 @@ from tqdm import tqdm
 global xc, yc
 xc = 0 ; yc = 0
 
+def gcolor(x, y):
+    response = requests.get(f'http://pb.dmcraft.online/?get_color={x},{y}')
+    return response.text
+
 def draw(cords, color = "black"):
     global xc, yc
     for i in tqdm(range(len(cords))):
-        payload = {'x': cords[i][1] + yc, 'y': cords[i][0] + xc, 'color': color }
+        try:
+            color = cords[i][2]
+        except:
+            pass
+
+        if str(gcolor(cords[i][1], cords[i][0])) != color:
+            payload = {'x': cords[i][1] + yc, 'y': cords[i][0] + xc, 'color': color }
         
-        response = requests.post('http://pb.dmcraft.online', data=payload)
-        
-        while str(response) != "<Response [200]>":
             response = requests.post('http://pb.dmcraft.online', data=payload)
-            print("Error, retrying...")
-            sleep(0.1)
+        
+            while str(response) != "<Response [200]>":
+                response = requests.post('http://pb.dmcraft.online', data=payload)
+                print("Error, retrying...")
+                sleep(0.1)
     print("DONE!")
 
 def linex(y, x1, x2):
@@ -40,10 +50,9 @@ def fill(xy1, xy2):
 
 
 
-#xc = 500
-#yc = 500
+print(gcolor(0, 1))
+draw([[0,1, "red"]])
 
-draw(fill([26,0], [50, 85]),"white")
 
 '''
 #Russian flag
