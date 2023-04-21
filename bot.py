@@ -2,9 +2,13 @@ import requests
 from time import sleep
 from tqdm import tqdm
 
+global xc, yc
+xc = 0 ; yc = 0
+
 def draw(cords, color = "black"):
+    global xc, yc
     for i in tqdm(range(len(cords))):
-        payload = {'x': cords[i][1], 'y': cords[i][0], 'color': color }
+        payload = {'x': cords[i][1] + yc, 'y': cords[i][0] + xc, 'color': color }
         
         response = requests.post('http://pb.dmcraft.online', data=payload)
         
@@ -33,6 +37,19 @@ def fill(xy1, xy2):
             res.append( [x, y] )
     return res
 
-draw(fill([150,100], [200,150]), "red")
 
+
+
+xc = 200
+yc = 300
+
+#Russian flag
+draw(fill([300,300], [330, 300]))
+draw(fill([300,330], [330, 330]))
+draw(fill([300,300], [300, 330]))
+draw(fill([330,300], [330, 330]))
+
+draw(fill([301,321], [329, 329]), "white")
+draw(fill([301,310], [329, 320]), "blue")
+draw(fill([301,301], [329, 310]), "red")
 
