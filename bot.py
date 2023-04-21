@@ -2,21 +2,16 @@ import requests
 from time import sleep
 from tqdm import tqdm
 
-def draw(cords):
+def draw(cords, color = "black"):
     for i in tqdm(range(len(cords))):
-        sleep(0.2)
-        try:
-            payload = {'x': cords[i][1], 'y': cords[i][0], 'color': cords[i][2]}
-        except:
-            payload = {'x': cords[i][1], 'y': cords[i][0], 'color': "blue" }
+        payload = {'x': cords[i][1], 'y': cords[i][0], 'color': color }
         
         response = requests.post('http://pb.dmcraft.online', data=payload)
-        #print(response)
         
         while str(response) != "<Response [200]>":
             response = requests.post('http://pb.dmcraft.online', data=payload)
             print("Error, retrying...")
-            #print(response)
+            sleep(0.1)
     print("DONE!")
 
 def linex(y, x1, x2):
@@ -38,6 +33,6 @@ def fill(xy1, xy2):
             res.append( [x, y] )
     return res
 
-draw(fill([14,14], [26,26]))
+draw(fill([150,100], [200,150]), "red")
 
 
