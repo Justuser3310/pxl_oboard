@@ -96,15 +96,15 @@ class PixelArt:
             for j in range(128):
                 color = self.canvas.itemcget(self.canvas.find_closest(i*12+6, j*12+6), "fill")
                 if color != "white":
-                    match self.colors.index(color):
-                        case 0:
-                            color = "red"
-                        case 1:
-                            color = "green"
-                        case 2:
-                            color = "blue"
-                        case 3:
-                            color = "black"
+                    tc = self.colors.index(color)
+                    if tc == 0:
+                        color = "red"
+                    elif tc == 1:
+                        color = "green"
+                    elif tc == 2:
+                        color = "blue"
+                    elif tc == 3:
+                        color = "black"
                     pixel_data.append([i, 127-j, color])
         f = open('out.txt', 'w')
         f.write(str(pixel_data))
