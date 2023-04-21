@@ -8,6 +8,11 @@ import time
 global LTIME
 LTIME = cur_time = time.monotonic()
 
+def kbv(dict_, value):
+    for i in dict_:
+        if dict_[i] == value:
+            return i
+
 class RequestHandler(BaseHTTPRequestHandler):
     MATRIX_SIZE = (800, 1024)
     COLORS = {
@@ -18,13 +23,28 @@ class RequestHandler(BaseHTTPRequestHandler):
     }
 
     def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'image/png')
-        self.end_headers()
+        params = parse_qs(self.path[2:])
+        if 'get_color' in params:
+            x, y = map(int, params['get_color'][0].split(','))
+            matrix = self.get_matrix()
+            color = matrix[x][y]
 
-        matrix = self.get_matrix()
-        matrix = np.flip(matrix, axis=0)
-        self.send_image(matrix)
+            #Magic~~~
+            color = tuple(list(map(int, str(color)[1:-1].split())))
+            color = kbv(self.COLORS, color)
+            
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(f'{color}'.encode())
+        else:
+            self.send_response(200)
+            self.send_header('Content-type', 'image/png')
+            self.end_headers()
+
+            matrix = self.get_matrix()
+            matrix = np.flip(matrix, axis=0)
+            self.send_image(matrix)
 
     def do_POST(self):
         global LTIME
@@ -32,7 +52,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         address = self.client_address[0]
         print("IP: ", address)
 
-        if cur_time - LTIME <= 0.01:
+        if cur_time - LTIME <= 0.005:
             self.send_error(429, 'Too Many Requests')
             self.send_response(429)
             return 0
