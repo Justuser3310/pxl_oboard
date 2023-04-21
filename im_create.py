@@ -3,9 +3,10 @@ from tkinter import *
 ####DRAW BLOCK
 import requests
 from time import sleep
+from tqdm import tqdm
 
 def draw(cords):
-    for i in range(len(cords)):
+    for i in tqdm(range(len(cords))):
         sleep(0.2)
         try:
             payload = {'x': cords[i][1], 'y': cords[i][0], 'color': cords[i][2]}
@@ -13,12 +14,12 @@ def draw(cords):
             payload = {'x': cords[i][1], 'y': cords[i][0], 'color': "b" }
         
         response = requests.post('http://pb.dmcraft.online', data=payload)
-        print(response)
+        #print(response)
         
         while str(response) != "<Response [200]>":
             response = requests.post('http://pb.dmcraft.online', data=payload)
-            print("Retrying...")
-            print(response)
+            print("Error, retrying...")
+            #print(response)
     print("!!!DONE!!!")
 
 
