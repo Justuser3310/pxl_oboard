@@ -63,7 +63,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             body = self.rfile.read(content_length)
             params = parse_qs(body.decode('utf-8'))
 
-            #Revert xy, never mind
             x = int(params['y'][0])
             y = int(params['x'][0])
             color = params['color'][0]
