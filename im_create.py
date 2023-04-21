@@ -48,6 +48,13 @@ class PixelArt:
         self.export_button = Button(self.button_frame, text="Upload", command=self.upload_image)
         self.export_button.pack(side=TOP, padx=5, pady=5)
 
+        self.button_frame.pack(side=LEFT, padx=5, pady=5)
+        self.export_button = Button(self.button_frame, text="Move", command=self.move_image)
+        self.export_button.pack(side=TOP, padx=5, pady=5)
+
+        self.xc = 0
+        self.yc = 0
+
         self.color_buttons = []
         for color in self.colors:
             button = Button(self.button_frame, bg=color, width=3, height=1, command=lambda c=color: self.set_color(c))
@@ -71,6 +78,28 @@ class PixelArt:
         for item in items:
             self.canvas.delete(item)
 
+    def move_image(self):
+        def submit():
+                self.xc = int(xc_entry.get())
+                self.yc = int(yc_entry.get())
+                root.destroy()
+
+                return 0
+            
+        root = Tk()
+        root.title("Смещение по X и Y")
+        xc_label = Label(root, text="Смещение Х: ", font=("Arial", 16))
+        xc_label.pack()
+        xc_entry = Entry(root, width=20, font=("Arial", 16))
+        xc_entry.pack()
+        yc_label = Label(root, text="Смещение Y: ", font=("Arial", 16))
+        yc_label.pack()
+        yc_entry = Entry(root, width=20, font=("Arial", 16))
+        yc_entry.pack()
+        submit_button = Button(root, text="OK", command=submit)
+        submit_button.pack()
+        root.mainloop()
+
     def upload_image(self):
         pixel_data = []
         for i in range(128):
@@ -86,7 +115,7 @@ class PixelArt:
                         color = "blue"
                     elif tc == 3:
                         color = "black"
-                    pixel_data.append([i, 127-j, color])
+                    pixel_data.append([i+ self.xc, 127-j +self.yc, color])
         print("!!!START UPLOAD!!!")
         draw(pixel_data)
 
@@ -105,7 +134,7 @@ class PixelArt:
                         color = "blue"
                     elif tc == 3:
                         color = "black"
-                    pixel_data.append([i, 127-j, color])
+                    pixel_data.append([i+ self.xc, 127-j +self.yc, color])
         f = open('out.txt', 'w')
         f.write(str(pixel_data))
         f.close()
