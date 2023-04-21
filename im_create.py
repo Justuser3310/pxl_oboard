@@ -63,7 +63,8 @@ class PixelArt:
         for i in range(129):
             self.canvas.create_line(i*12, 0, i*12, 128*12, fill="white")
             self.canvas.create_line(0, i*12, 128*12, i*12, fill="white")
-        self.canvas.bind("<Button-1>", self.draw_pixel)
+        #self.canvas.bind("<Button-1>", self.draw_pixel)
+        self.canvas.bind("<B1-Motion>", self.draw_pixel)
 
     def draw_pixel(self, event):
         x = int(event.x / 12)
