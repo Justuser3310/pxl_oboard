@@ -40,9 +40,12 @@ def fill(xy1, xy2):
 
 
 
-xc = 200
-yc = 300
+#xc = 500
+#yc = 500
 
+draw(fill([26,0], [50, 85]),"white")
+
+'''
 #Russian flag
 draw(fill([300,300], [330, 300]))
 draw(fill([300,330], [330, 330]))
@@ -52,4 +55,4 @@ draw(fill([330,300], [330, 330]))
 draw(fill([301,321], [329, 329]), "white")
 draw(fill([301,310], [329, 320]), "blue")
 draw(fill([301,301], [329, 310]), "red")
-
+'''
